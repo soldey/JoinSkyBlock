@@ -12,8 +12,11 @@ import net.minecraft.network.chat.contents.TranslatableContents
 
 /**
  * Puts our button where Singleplayer was. The vanilla button is found by its translation key
- * rather than by position, so it is found wherever another mod (Essential, for one) moved it -
- * and it is hidden instead of removed, so mods that kept a reference to it do not break.
+ * rather than by position, so it is found wherever another mod moved it.
+ *
+ * Our button takes Singleplayer's slot in the widget list, not just its coordinates. Mod Menu
+ * lays the menu out by list index - buttons before its Mods button move up, the rest move down -
+ * so a button appended at the end was pushed down onto Multiplayer and hid it.
  */
 object TitleScreenButton {
 
@@ -27,19 +30,16 @@ object TitleScreenButton {
             if (!ConfigManager.config.showButton) return@register
 
             val widgets = Screens.getWidgets(screen)
-            val singleplayer = widgets.firstOrNull { it.isSingleplayer() }
-            if (singleplayer == null) {
+            val index = widgets.indexOfFirst { it.isSingleplayer() }
+            if (index < 0) {
                 JoinSkyBlock.logger.warn("No Singleplayer button on the title screen, not adding ours")
                 return@register
             }
 
-            singleplayer.visible = false
-            singleplayer.active = false
-            widgets.add(
-                Button.builder(label()) { HypixelConnector.connect(screen) }
-                    .bounds(singleplayer.x, singleplayer.y, singleplayer.width, singleplayer.height)
-                    .build(),
-            )
+            val singleplayer = widgets[index]
+            widgets[index] = Button.builder(label()) { HypixelConnector.connect(screen) }
+                .bounds(singleplayer.x, singleplayer.y, singleplayer.width, singleplayer.height)
+                .build()
         }
     }
 
