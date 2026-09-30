@@ -1,0 +1,37 @@
+{
+    "schemaVersion": 1,
+    "id": "joinskyblock",
+    "version": "${version}",
+    "name": "Join SkyBlock",
+    "description": "Replaces Singleplayer in the main menu with a button that joins Hypixel and takes you straight to SkyBlock. Something broken? Send the log to soldey on Discord.",
+    "authors": [
+        "kmsold"
+    ],
+    "contact": {
+        "homepage": "https://github.com/soldey/JoinSkyBlock",
+        "sources": "https://github.com/soldey/JoinSkyBlock",
+        "issues": "https://github.com/soldey/JoinSkyBlock/issues"
+    },
+    "license": "LGPL-3.0-or-later",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            {
+                "adapter": "kotlin",
+                "value": "me.kmsold.joinskyblock.JoinSkyBlock"
+            }
+        ],
+        "modmenu": [
+            "me.kmsold.joinskyblock.compat.ModMenuIntegration"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=${fabricLoader}",
+        "fabric-api": "*",
+        "fabric-language-kotlin": ">=${fabricKotlin}",
+        "minecraft": "${minecraft}"
+    },
+    "recommends": {
+        "hypixel-mod-api": "*"
+    }
+}
