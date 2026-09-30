@@ -16,3 +16,6 @@ logs/
 
 # macOS
 .DS_Store
+
+# Local Modrinth token for API calls, never committed
+.modrinth-token
