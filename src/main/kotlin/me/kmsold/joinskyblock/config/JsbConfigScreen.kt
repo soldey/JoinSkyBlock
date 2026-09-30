@@ -43,6 +43,14 @@ class JsbConfigScreen(private val parent: Screen?) : Screen(Component.translatab
                     config.showButton = value
                 },
         )
+        y += 24
+
+        addRenderableWidget(
+            CycleButton.onOffBuilder(config.rejoinSkyblock)
+                .create(left, y, WIDTH, 20, Component.translatable("joinskyblock.config.rejoinSkyblock")) { _, value ->
+                    config.rejoinSkyblock = value
+                },
+        )
         y += 32
 
         addRenderableWidget(Button.builder(CommonComponents.GUI_DONE) { onClose() }.bounds(left, y, WIDTH, 20).build())

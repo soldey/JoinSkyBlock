@@ -22,6 +22,25 @@ that you are in a lobby. Without it the mod waits two seconds after joining.
 * If SkyHanni's own **Auto Join Skyblock** is on, the button only connects and leaves the
   command to SkyHanni, so it is never sent twice.
 
+### Back to SkyBlock after a kick (beta, off by default)
+
+**Beta:** Hypixel's kicks cannot be triggered on demand, so this has only been tested against
+recorded cases, not a real kick yet. If it stays silent or fires when it should not, send
+`logs/latest.log` right away - every location and kick line it saw is logged there.
+
+Sometimes SkyBlock throws you out into a Hypixel lobby or limbo while you stay connected. With
+this option on, the mod waits 1:10 and sends `/play skyblock` once - from limbo it first sends
+`/lobby`, the usual way out. A chat line only you can see says when it will happen;
+`/jsb cancel` stops it. It never sends `/is` or anything else.
+
+* It notices the kick in two ways: the location from `hypixel-mod-api` going from SkyBlock to a
+  lobby, or Hypixel's own chat line such as "An exception occurred in your connection...".
+  Without `hypixel-mod-api` it cannot tell you were in SkyBlock and does nothing.
+* Leaving on purpose - `/lobby`, `/l`, `/play <game>`, `/limbo` and the like - is not a kick,
+  unless Hypixel's kick line comes right after.
+* Getting back to SkyBlock yourself, or being warped into a game, cancels the countdown.
+* One attempt per kick, never repeated.
+
 ## Settings
 
 Through ModMenu, or in `config/joinskyblock.json`:
@@ -31,11 +50,15 @@ Through ModMenu, or in `config/joinskyblock.json`:
 | `serverAddress` | `mc.hypixel.net` | where the button connects to |
 | `autoPlaySkyblock` | `true` | send `/play skyblock`; off means the button only connects (it then reads "Join Hypixel") |
 | `showButton` | `true` | replace Singleplayer with the button |
+| `rejoinSkyblock` | `false` | go back to SkyBlock after being kicked into a lobby (beta) |
+| `rejoinDelaySeconds` | `70` | how long to wait in the lobby first, 5 to 600 |
 
 ## Hypixel rules
 
 The mod connects to the server and sends one command you could type yourself - the same thing
-SkyHanni's option does. There is no other automation, and there never will be.
+SkyHanni's option does. Going back to SkyBlock after a kick is the same one command on a timer, and
+it is off unless you turn it on; whether Hypixel is fine with it for the way you play is your call. There is no in-game automation, and there
+never will be.
 
 ## Licence
 
