@@ -1,0 +1,8 @@
+{
+    "joinskyblock.button.skyblock": "Играть в SkyBlock",
+    "joinskyblock.button.hypixel": "Играть на Hypixel",
+    "joinskyblock.config.title": "Join SkyBlock",
+    "joinskyblock.config.serverAddress": "Адрес сервера",
+    "joinskyblock.config.autoPlaySkyblock": "Отправлять /play skyblock",
+    "joinskyblock.config.showButton": "Заменить «Одиночную игру»"
+}
