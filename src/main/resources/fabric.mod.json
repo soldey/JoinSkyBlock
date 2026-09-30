@@ -3,6 +3,7 @@
     "id": "joinskyblock",
     "version": "${version}",
     "name": "Join SkyBlock",
+    "icon": "assets/joinskyblock/icon.png",
     "description": "Replaces Singleplayer in the main menu with a button that joins Hypixel and takes you straight to SkyBlock. Something broken? Send the log to soldey on Discord.",
     "authors": [
         "kmsold"
