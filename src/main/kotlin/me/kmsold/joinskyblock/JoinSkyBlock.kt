@@ -3,7 +3,7 @@ package me.kmsold.joinskyblock
 import me.kmsold.joinskyblock.compat.HypixelLocationApi
 import me.kmsold.joinskyblock.config.ConfigManager
 import me.kmsold.joinskyblock.connect.AutoPlay
-import me.kmsold.joinskyblock.connect.AutoReconnect
+import me.kmsold.joinskyblock.connect.Rejoin
 import me.kmsold.joinskyblock.connect.TitleScreenButton
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -30,9 +30,12 @@ object JoinSkyBlock : ClientModInitializer {
     override fun onInitializeClient() {
         ConfigManager.load()
         TitleScreenButton.register()
-        AutoReconnect.register()
+        Rejoin.register()
         registerConnectionHooks()
-        ClientTickEvents.END_CLIENT_TICK.register { autoPlay.tick() }
+        ClientTickEvents.END_CLIENT_TICK.register {
+            autoPlay.tick()
+            Rejoin.tick()
+        }
         logger.info("Join SkyBlock ready")
     }
 
@@ -42,22 +45,32 @@ object JoinSkyBlock : ClientModInitializer {
                 .onFailure { logger.error("Could not hook into hypixel-mod-api", it) }
         } else {
             logger.info("hypixel-mod-api is not installed, /play skyblock will be sent after a short delay")
+            logger.info("Without hypixel-mod-api the SkyBlock rejoin cannot tell where the player is and stays off")
         }
 
-        ClientPlayConnectionEvents.JOIN.register { _, _, client ->
-            autoPlay.onJoin()
-            AutoReconnect.policy.onJoin(AutoReconnect.isHypixel(client))
+        ClientPlayConnectionEvents.JOIN.register { _, _, _ -> autoPlay.onJoin() }
+        ClientPlayConnectionEvents.DISCONNECT.register { _, _ ->
+            autoPlay.reset()
+            Rejoin.state.reset()
         }
-        ClientPlayConnectionEvents.DISCONNECT.register { _, _ -> autoPlay.reset() }
     }
 
-    private fun sendPlayCommand() {
+    /** True while the mod itself sends a command, so the typed-command listener can skip it. */
+    var sendingOwnCommand = false
+        private set
+
+    fun sendPlayCommand() {
         val connection = Minecraft.getInstance().connection
         if (connection == null) {
             logger.warn("Not connected any more, /{} was not sent", PLAY_COMMAND)
             return
         }
         logger.info("Sending /{}", PLAY_COMMAND)
-        connection.sendCommand(PLAY_COMMAND)
+        sendingOwnCommand = true
+        try {
+            connection.sendCommand(PLAY_COMMAND)
+        } finally {
+            sendingOwnCommand = false
+        }
     }
 }

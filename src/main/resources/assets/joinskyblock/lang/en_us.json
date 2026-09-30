@@ -5,7 +5,8 @@
     "joinskyblock.config.serverAddress": "Server address",
     "joinskyblock.config.autoPlaySkyblock": "Send /play skyblock",
     "joinskyblock.config.showButton": "Replace Singleplayer",
-    "joinskyblock.config.autoReconnect": "Reconnect after a kick",
-    "joinskyblock.reconnect.countdown": "Reconnecting in %s - click to cancel",
-    "joinskyblock.reconnect.cancelled": "Reconnect cancelled"
+    "joinskyblock.config.rejoinSkyblock": "Back to SkyBlock after a kick",
+    "joinskyblock.rejoin.scheduled": "Kicked out of SkyBlock, /play skyblock in %s. /jsb cancel to stay",
+    "joinskyblock.rejoin.cancelled": "Not going back to SkyBlock",
+    "joinskyblock.rejoin.nothing": "Nothing to cancel"
 }

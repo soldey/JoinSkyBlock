@@ -46,9 +46,9 @@ class JsbConfigScreen(private val parent: Screen?) : Screen(Component.translatab
         y += 24
 
         addRenderableWidget(
-            CycleButton.onOffBuilder(config.autoReconnect)
-                .create(left, y, WIDTH, 20, Component.translatable("joinskyblock.config.autoReconnect")) { _, value ->
-                    config.autoReconnect = value
+            CycleButton.onOffBuilder(config.rejoinSkyblock)
+                .create(left, y, WIDTH, 20, Component.translatable("joinskyblock.config.rejoinSkyblock")) { _, value ->
+                    config.rejoinSkyblock = value
                 },
         )
         y += 32

@@ -17,13 +17,13 @@ class JsbConfig {
     @Expose
     var showButton: Boolean = true
 
-    /** Reconnect by itself after the Hypixel connection is lost. */
+    /** Send `/play skyblock` again after SkyBlock throws the player into a Hypixel lobby. */
     @Expose
-    var autoReconnect: Boolean = false
+    var rejoinSkyblock: Boolean = false
 
-    /** How long the "connection lost" screen counts down before reconnecting. */
+    /** How long to wait in the lobby before going back. */
     @Expose
-    var reconnectDelaySeconds: Int = 70
+    var rejoinDelaySeconds: Int = 70
 
     companion object {
         const val DEFAULT_SERVER_ADDRESS = "mc.hypixel.net"
