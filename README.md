@@ -22,7 +22,11 @@ that you are in a lobby. Without it the mod waits two seconds after joining.
 * If SkyHanni's own **Auto Join Skyblock** is on, the button only connects and leaves the
   command to SkyHanni, so it is never sent twice.
 
-### Back to SkyBlock after a kick (off by default)
+### Back to SkyBlock after a kick (beta, off by default)
+
+**Beta:** Hypixel's kicks cannot be triggered on demand, so this has only been tested against
+recorded cases, not a real kick yet. If it stays silent or fires when it should not, send
+`logs/latest.log` right away - every location and kick line it saw is logged there.
 
 Sometimes SkyBlock throws you out into a Hypixel lobby or limbo while you stay connected. With
 this option on, the mod waits 1:10 and sends `/play skyblock` once - from limbo it first sends
@@ -46,7 +50,7 @@ Through ModMenu, or in `config/joinskyblock.json`:
 | `serverAddress` | `mc.hypixel.net` | where the button connects to |
 | `autoPlaySkyblock` | `true` | send `/play skyblock`; off means the button only connects (it then reads "Join Hypixel") |
 | `showButton` | `true` | replace Singleplayer with the button |
-| `rejoinSkyblock` | `false` | go back to SkyBlock after being kicked into a lobby |
+| `rejoinSkyblock` | `false` | go back to SkyBlock after being kicked into a lobby (beta) |
 | `rejoinDelaySeconds` | `70` | how long to wait in the lobby first, 5 to 600 |
 
 ## Hypixel rules
