@@ -24,7 +24,7 @@ object JoinSkyBlock : ClientModInitializer {
 
     val autoPlay = AutoPlay(
         hasLocationApi = FabricLoader.getInstance().isModLoaded("hypixel-mod-api"),
-        send = ::sendPlayCommand,
+        send = { sendCommand(PLAY_COMMAND) },
     )
 
     override fun onInitializeClient() {
@@ -59,16 +59,17 @@ object JoinSkyBlock : ClientModInitializer {
     var sendingOwnCommand = false
         private set
 
-    fun sendPlayCommand() {
+    /** Sends [command], without the slash, as if typed - but marked as the mod's own. */
+    fun sendCommand(command: String) {
         val connection = Minecraft.getInstance().connection
         if (connection == null) {
-            logger.warn("Not connected any more, /{} was not sent", PLAY_COMMAND)
+            logger.warn("Not connected any more, /{} was not sent", command)
             return
         }
-        logger.info("Sending /{}", PLAY_COMMAND)
+        logger.info("Sending /{}", command)
         sendingOwnCommand = true
         try {
-            connection.sendCommand(PLAY_COMMAND)
+            connection.sendCommand(command)
         } finally {
             sendingOwnCommand = false
         }

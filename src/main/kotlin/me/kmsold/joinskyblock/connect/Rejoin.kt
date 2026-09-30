@@ -4,6 +4,7 @@ import me.kmsold.joinskyblock.JoinSkyBlock
 import me.kmsold.joinskyblock.config.ConfigManager
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
+import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
@@ -12,7 +13,7 @@ import net.minecraft.network.chat.Component
 /** Wires [SkyBlockRejoin] to the game: location packets, typed commands, ticks and the chat. */
 object Rejoin {
 
-    val state = SkyBlockRejoin(send = { JoinSkyBlock.sendPlayCommand() })
+    val state = SkyBlockRejoin(send = { JoinSkyBlock.sendCommand(it) })
 
     private val enabled: Boolean get() = ConfigManager.config.rejoinSkyblock
 
@@ -21,6 +22,12 @@ object Rejoin {
     fun register() {
         ClientSendMessageEvents.COMMAND.register { command ->
             if (!JoinSkyBlock.sendingOwnCommand) state.onPlayerCommand(command)
+        }
+        ClientReceiveMessageEvents.GAME.register { message, overlay ->
+            if (overlay) return@register
+            val limbo = SkyBlockRejoin.parseKickMessage(message.string) ?: return@register
+            JoinSkyBlock.logger.info("Hypixel kick message: {}", message.string)
+            report(state.onKickMessage(limbo, enabled, delayMillis, System.currentTimeMillis()))
         }
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
             dispatcher.register(
@@ -36,8 +43,8 @@ object Rejoin {
     }
 
     /** Called on the client thread for every Hypixel location packet. */
-    fun onLocation(skyBlock: Boolean, lobby: Boolean) {
-        report(state.onLocation(skyBlock, lobby, enabled, delayMillis, System.currentTimeMillis()))
+    fun onLocation(place: SkyBlockRejoin.Place) {
+        report(state.onLocation(place, enabled, delayMillis, System.currentTimeMillis()))
     }
 
     fun tick() {
@@ -55,7 +62,7 @@ object Rejoin {
                 JoinSkyBlock.logger.info("SkyBlock rejoin cancelled")
                 tell(Component.translatable("joinskyblock.rejoin.cancelled"))
             }
-            SkyBlockRejoin.Event.Sent -> JoinSkyBlock.logger.info("SkyBlock rejoin sent")
+            is SkyBlockRejoin.Event.Sent -> JoinSkyBlock.logger.info("SkyBlock rejoin: sent /{}", event.command)
             null -> {}
         }
     }

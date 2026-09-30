@@ -25,12 +25,15 @@ that you are in a lobby. Without it the mod waits two seconds after joining.
 ### Back to SkyBlock after a kick (off by default)
 
 Sometimes SkyBlock throws you out into a Hypixel lobby or limbo while you stay connected. With
-this option on, the mod waits 1:10 and sends `/play skyblock` once. A chat line only you can see
-says when it will happen; `/jsb cancel` stops it.
+this option on, the mod waits 1:10 and sends `/play skyblock` once - from limbo it first sends
+`/lobby`, the usual way out. A chat line only you can see says when it will happen;
+`/jsb cancel` stops it. It never sends `/is` or anything else.
 
-* It needs `hypixel-mod-api`, which is how the mod knows you were in SkyBlock and now are in a
-  lobby. Without it the option does nothing.
-* Leaving on purpose - `/lobby`, `/l`, `/play <game>`, `/limbo` and the like - is not a kick.
+* It notices the kick in two ways: the location from `hypixel-mod-api` going from SkyBlock to a
+  lobby, or Hypixel's own chat line such as "An exception occurred in your connection...".
+  Without `hypixel-mod-api` it cannot tell you were in SkyBlock and does nothing.
+* Leaving on purpose - `/lobby`, `/l`, `/play <game>`, `/limbo` and the like - is not a kick,
+  unless Hypixel's kick line comes right after.
 * Getting back to SkyBlock yourself, or being warped into a game, cancels the countdown.
 * One attempt per kick, never repeated.
 
