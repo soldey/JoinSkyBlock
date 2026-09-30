@@ -4,5 +4,8 @@
     "joinskyblock.config.title": "Join SkyBlock",
     "joinskyblock.config.serverAddress": "Адрес сервера",
     "joinskyblock.config.autoPlaySkyblock": "Отправлять /play skyblock",
-    "joinskyblock.config.showButton": "Заменить «Одиночную игру»"
+    "joinskyblock.config.showButton": "Заменить «Одиночную игру»",
+    "joinskyblock.config.autoReconnect": "Переподключаться после кика",
+    "joinskyblock.reconnect.countdown": "Переподключение через %s - нажми для отмены",
+    "joinskyblock.reconnect.cancelled": "Переподключение отменено"
 }

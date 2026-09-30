@@ -17,6 +17,14 @@ class JsbConfig {
     @Expose
     var showButton: Boolean = true
 
+    /** Reconnect by itself after the Hypixel connection is lost. */
+    @Expose
+    var autoReconnect: Boolean = false
+
+    /** How long the "connection lost" screen counts down before reconnecting. */
+    @Expose
+    var reconnectDelaySeconds: Int = 70
+
     companion object {
         const val DEFAULT_SERVER_ADDRESS = "mc.hypixel.net"
     }

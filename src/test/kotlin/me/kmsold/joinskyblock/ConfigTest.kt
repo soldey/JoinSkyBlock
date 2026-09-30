@@ -16,6 +16,8 @@ class ConfigTest {
         val config = ConfigManager.parse("""{ "autoPlaySkyblock": false }""")!!
         assertFalse(config.autoPlaySkyblock)
         assertTrue(config.showButton)
+        assertFalse(config.autoReconnect)
+        assertEquals(70, config.reconnectDelaySeconds)
         assertEquals(JsbConfig.DEFAULT_SERVER_ADDRESS, config.serverAddress)
     }
 

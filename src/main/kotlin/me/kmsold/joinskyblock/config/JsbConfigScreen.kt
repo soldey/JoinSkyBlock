@@ -43,6 +43,14 @@ class JsbConfigScreen(private val parent: Screen?) : Screen(Component.translatab
                     config.showButton = value
                 },
         )
+        y += 24
+
+        addRenderableWidget(
+            CycleButton.onOffBuilder(config.autoReconnect)
+                .create(left, y, WIDTH, 20, Component.translatable("joinskyblock.config.autoReconnect")) { _, value ->
+                    config.autoReconnect = value
+                },
+        )
         y += 32
 
         addRenderableWidget(Button.builder(CommonComponents.GUI_DONE) { onClose() }.bounds(left, y, WIDTH, 20).build())

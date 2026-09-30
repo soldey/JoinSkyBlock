@@ -22,6 +22,17 @@ that you are in a lobby. Without it the mod waits two seconds after joining.
 * If SkyHanni's own **Auto Join Skyblock** is on, the button only connects and leaves the
   command to SkyHanni, so it is never sent twice.
 
+### Reconnect after a kick (off by default)
+
+When a Hypixel session ends on the "connection lost" screen, that screen shows a countdown
+button - 1:10 by default. When it runs out the mod reconnects and, if enabled, sends
+`/play skyblock` again, exactly like the menu button.
+
+* Click the countdown button or leave the screen to cancel.
+* Leaving through the pause menu never triggers it - only a lost connection does.
+* Bans and "logged in from another location" are never reconnected.
+* A server that keeps refusing gets 3 attempts in a row, then the mod gives up.
+
 ## Settings
 
 Through ModMenu, or in `config/joinskyblock.json`:
@@ -31,11 +42,15 @@ Through ModMenu, or in `config/joinskyblock.json`:
 | `serverAddress` | `mc.hypixel.net` | where the button connects to |
 | `autoPlaySkyblock` | `true` | send `/play skyblock`; off means the button only connects (it then reads "Join Hypixel") |
 | `showButton` | `true` | replace Singleplayer with the button |
+| `autoReconnect` | `false` | reconnect after the Hypixel connection is lost |
+| `reconnectDelaySeconds` | `70` | countdown before reconnecting, 5 to 600 |
 
 ## Hypixel rules
 
 The mod connects to the server and sends one command you could type yourself - the same thing
-SkyHanni's option does. There is no other automation, and there never will be.
+SkyHanni's option does. Reconnecting after a kick is off unless you turn it on; whether Hypixel
+is fine with it for the way you play is your call. There is no in-game automation, and there
+never will be.
 
 ## Licence
 

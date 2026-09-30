@@ -4,5 +4,8 @@
     "joinskyblock.config.title": "Join SkyBlock",
     "joinskyblock.config.serverAddress": "Server address",
     "joinskyblock.config.autoPlaySkyblock": "Send /play skyblock",
-    "joinskyblock.config.showButton": "Replace Singleplayer"
+    "joinskyblock.config.showButton": "Replace Singleplayer",
+    "joinskyblock.config.autoReconnect": "Reconnect after a kick",
+    "joinskyblock.reconnect.countdown": "Reconnecting in %s - click to cancel",
+    "joinskyblock.reconnect.cancelled": "Reconnect cancelled"
 }

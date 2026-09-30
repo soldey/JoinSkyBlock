@@ -3,6 +3,7 @@ package me.kmsold.joinskyblock
 import me.kmsold.joinskyblock.compat.HypixelLocationApi
 import me.kmsold.joinskyblock.config.ConfigManager
 import me.kmsold.joinskyblock.connect.AutoPlay
+import me.kmsold.joinskyblock.connect.AutoReconnect
 import me.kmsold.joinskyblock.connect.TitleScreenButton
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -29,6 +30,7 @@ object JoinSkyBlock : ClientModInitializer {
     override fun onInitializeClient() {
         ConfigManager.load()
         TitleScreenButton.register()
+        AutoReconnect.register()
         registerConnectionHooks()
         ClientTickEvents.END_CLIENT_TICK.register { autoPlay.tick() }
         logger.info("Join SkyBlock ready")
@@ -42,7 +44,10 @@ object JoinSkyBlock : ClientModInitializer {
             logger.info("hypixel-mod-api is not installed, /play skyblock will be sent after a short delay")
         }
 
-        ClientPlayConnectionEvents.JOIN.register { _, _, _ -> autoPlay.onJoin() }
+        ClientPlayConnectionEvents.JOIN.register { _, _, client ->
+            autoPlay.onJoin()
+            AutoReconnect.policy.onJoin(AutoReconnect.isHypixel(client))
+        }
         ClientPlayConnectionEvents.DISCONNECT.register { _, _ -> autoPlay.reset() }
     }
 
