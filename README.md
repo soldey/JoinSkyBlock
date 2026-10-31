@@ -7,8 +7,10 @@ Supports **Minecraft 26.1.x and 26.2**, with a separate jar per version - take t
 your game. Needs Fabric Loader 0.19.3+, Fabric API and Fabric Language Kotlin; ModMenu is
 optional.
 
-`hypixel-mod-api` is **recommended**: with it the command goes out the moment Hypixel reports
-that you are in a lobby. Without it the mod waits two seconds after joining.
+`hypixel-mod-api` is **recommended**: with it the command goes out five seconds after Hypixel
+reports that you are in a lobby. Without it the mod waits six seconds after joining. Moving to
+SkyBlock within the first couple of seconds in the lobby sometimes drops the connection
+("Failed to decode packet", "unknown packet id"); after a few seconds it does not.
 
 ## How it behaves
 

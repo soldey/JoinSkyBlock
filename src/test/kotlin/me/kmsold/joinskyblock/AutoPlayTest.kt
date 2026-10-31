@@ -34,6 +34,42 @@ class AutoPlayTest {
     }
 
     @Test
+    fun `waits a moment in the lobby before sending`() {
+        val autoPlay = autoPlay(hasLocationApi = true)
+        autoPlay.request()
+        autoPlay.onJoin()
+        autoPlay.onLocation(alreadyInSkyBlock = false)
+        autoPlay.tick(AutoPlay.LOBBY_DELAY_TICKS - 1)
+        assertEquals(0, sent)
+        autoPlay.tick(1)
+        assertEquals(1, sent)
+    }
+
+    @Test
+    fun `reaching skyblock during the wait cancels it`() {
+        val autoPlay = autoPlay(hasLocationApi = true)
+        autoPlay.request()
+        autoPlay.onJoin()
+        autoPlay.onLocation(alreadyInSkyBlock = false)
+        autoPlay.tick(AutoPlay.LOBBY_DELAY_TICKS / 2)
+        autoPlay.onLocation(alreadyInSkyBlock = true)
+        autoPlay.tick(1000)
+        assertEquals(0, sent)
+        assertFalse(autoPlay.isPending)
+    }
+
+    @Test
+    fun `a disconnect during the wait cancels it`() {
+        val autoPlay = autoPlay(hasLocationApi = true)
+        autoPlay.request()
+        autoPlay.onJoin()
+        autoPlay.onLocation(alreadyInSkyBlock = false)
+        autoPlay.reset()
+        autoPlay.tick(1000)
+        assertEquals(0, sent)
+    }
+
+    @Test
     fun `does not send when hypixel already put the player in skyblock`() {
         val autoPlay = autoPlay(hasLocationApi = true)
         autoPlay.request()
